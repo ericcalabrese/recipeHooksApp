@@ -8,7 +8,8 @@ const App = () => {
 
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState('');
-  const [query, setQuery] = useState('chicken');
+  const [query, setQuery] = useState('popular');
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     getRecipes();
@@ -21,7 +22,9 @@ const App = () => {
     //console.log(data)
     fetch(`https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`)
       .then(res => res.json())
-        .then(data => setRecipes(data.hits),
+        .then(data => 
+          setRecipes(data.hits),
+          //console.log(data),
           (error) => {
             console.log("Error: "+error)
           }
@@ -36,6 +39,34 @@ const App = () => {
     e.preventDefault();
     setQuery(search);
     setSearch('');
+    setIndex(1);
+  };
+
+  const screens = index => {
+    switch(index) {
+      default:
+        case 1:
+          return(<div className="recipes">
+            {recipes.map(recipe => (
+              <Recipe 
+                key={recipe.recipe.label}
+                title={recipe.recipe.label} 
+                calories={recipe.recipe.calories} 
+                image={recipe.recipe.image} 
+                ingredients={recipe.recipe.ingredients}
+                recipe={recipe.recipe.url}
+                totalTime={recipe.recipe.totalTime}
+              />
+            ))}
+          </div>)
+        case 0:
+          return(<div className="textCenter">
+                  <h1>Welcome to iRecipe</h1>
+                  <p>Type any ingredient into the search bar and see all the possibilities for your next meal.
+</p>
+                </div>
+          )
+    }  
   };
 
   return(
@@ -43,18 +74,8 @@ const App = () => {
       <form onSubmit={getSearch} className="search-form">
         <input className="search-bar" type="text" value={search} onChange={updateSearch}/>
         <button className="search-button" type="submit">Search</button>
-      </form> 
-      <div className="recipes">
-        {recipes.map(recipe => (
-          <Recipe 
-            key={recipe.recipe.label}
-            title={recipe.recipe.label} 
-            calories={recipe.recipe.calories} 
-            image={recipe.recipe.image} 
-            ingredients={recipe.recipe.ingredients}
-          />
-        ))}
-      </div>
+      </form>
+      {screens(index)}
     </div>
   );
 };
