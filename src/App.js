@@ -60,7 +60,7 @@ const App = () => {
             ))}
           </div>)
         case 0:
-          return(<div className="textCenter">
+          return(<div className="textCenter main">
                   <h1>Welcome to iRecipe</h1>
                   <p>Type any ingredient into the search bar and see all the possibilities for your next meal.
 </p>
