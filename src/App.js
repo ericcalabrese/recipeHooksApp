@@ -12,24 +12,24 @@ const App = () => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    const getRecipes = async () => {
+      // const response = await fetch(`https://api.edamam.com/search?q=chicken&app_id=${APP_ID}&app_key=${APP_KEY}`);
+      // const data = response.json();
+      // setRecipes(data);
+      fetch(`https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`)
+        .then(res => res.json())
+          .then(data => 
+            setRecipes(data.hits),
+            (error) => {
+              console.log("Error: "+error)
+            }
+        )
+    }
+
     getRecipes();
   }, [query]);
 
-  const getRecipes = async () => {
-    // const response = await fetch(`https://api.edamam.com/search?q=chicken&app_id=${APP_ID}&app_key=${APP_KEY}`);
-    // const data = response.json();
-    // setRecipes(data);
-    //console.log(data)
-    fetch(`https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`)
-      .then(res => res.json())
-        .then(data => 
-          setRecipes(data.hits),
-          //console.log(data),
-          (error) => {
-            console.log("Error: "+error)
-          }
-      )
-  }
+  
 
   const updateSearch = e => {
     setSearch(e.target.value);

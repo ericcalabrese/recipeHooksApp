@@ -10,8 +10,8 @@ const Recipe = ({title,calories,image,ingredients,recipe,totalTime}) => {
 			<img className={style.image} src={image} alt={title}/>
 			<p className="ingredients">Ingredients</p>
 			<ul>
-				{ingredients.map(ingredient => (
-					<li>{ingredient.text}</li>
+				{ingredients.map((ingredient,index) => (
+					<li key={index}>{ingredient.text}</li>
 				))}
 			</ul>
 			<p className="marginLeft15">Total Prep Time: {totalTime} mins</p>
